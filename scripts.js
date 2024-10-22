@@ -2,6 +2,19 @@
 
 let containers = [];
 const container = document.getElementById("myPanzoom");
+let random;
+
+function fetchWords() {
+    const urlRandom = 'https://random-word-api.herokuapp.com/word?number=120'
+    fetch(urlRandom)
+    .then(response => response.json())
+    .then(data => {
+    console.log(data)
+    
+    })
+ 
+}
+fetchWords()
 
 
 
@@ -24,7 +37,7 @@ function fetchImage (query) {
             container.innerHTML = ''
              searchTag.innerText = `Searched word:  ${query}`
           
-            for (var i = 0; i<data.photos.length; i++) {
+            for (var i = 0; i < data.photos.length; i++) {
                
                 container.innerHTML +=  ` <div  id="myPanzoom${i}"><img src=${data.photos[i].src.large} class="searchedImg f-panzoom__content"></img></div>`
                 // let container1 = document.getElementById(`myPanzoom${i}`);
@@ -87,11 +100,12 @@ let words = [
     "ashamed","assured","astonishing","athletic","attached","attentive","attractive","austere","authentic",
     "authorized","automatic","average","aware","awesome","awful","awkward","bad","back",
     "baggy","bare","barren","basic","beautiful","beloved","beneficial","better","best","bewitched","big",
-   "biodegradable","bitesized","bitter","black","hate","kill",'Lithuania','Hell','Heaven',"dreamcatcher","succubus",'demon','black sabbath','sexy','zombie'
+   "biodegradable","bitesized","bitter","black","hate","kill",'Lithuania','Hell','Heaven',"dreamcatcher","succubus",'demon','black sabbath','zombie','mainecoon'
 ] 
 
 document.querySelector('.randomWord').addEventListener('click', function(){
-let randomThing = Math.round(Math.random() * 100 )
+let randomThing = Math.round(Math.random()  * words.length )
+
 fetchImage(words[randomThing]);
 document.getElementById('search-text').innerText = `Searched word:  ${words[randomThing]}`
 })
