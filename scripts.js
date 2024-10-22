@@ -1,8 +1,19 @@
 
 
+let containers = [];
+const container = document.getElementById("myPanzoom");
+
+
+
+
+
+
 function fetchImage (query) {
     const pexelsApi = '7ZRIPUtVjgZRqxlgaA7NsOSV87LVnSDvnVKaTLAhSTqtMISG3yAN4DuQ'
-    const url = `https://api.pexels.com/v1/search?query=${query}&per_page=1`
+    const url = `https://api.pexels.com/v1/search?query=${query}`
+    const searchTag =  document.getElementById('search-text')
+
+
 
     fetch(url, {
         headers: {Authorization: pexelsApi}
@@ -10,9 +21,17 @@ function fetchImage (query) {
     .then(response =>response.json())
     .then(data => {
         if(data.photos.length > 0) {
-             document.querySelector('.searchedImg').src = `${data.photos[0].src.large}`
-             document.getElementById('search-text').innerText = `Searched word:  ${query}`
-            
+            container.innerHTML = ''
+             searchTag.innerText = `Searched word:  ${query}`
+          
+            for (var i = 0; i<data.photos.length; i++) {
+               
+                container.innerHTML +=  ` <div  id="myPanzoom${i}"><img src=${data.photos[i].src.large} class="searchedImg f-panzoom__content"></img></div>`
+                // let container1 = document.getElementById(`myPanzoom${i}`);
+                // new Panzoom(container1, options, { Toolbar });
+
+            }
+          
         } else {
                 alert('No image found for ' + query)
             }
@@ -21,6 +40,8 @@ function fetchImage (query) {
     .catch(error => console.error('Error fetching image:', error))
 
 }
+
+
 
 
 document.querySelector('.search button').addEventListener('click', function(){
@@ -33,24 +54,27 @@ document.querySelector('.search-bar').addEventListener('keyup', function(event){
     }
 })
 // the whole zoom menu
-const container = document.getElementById("myPanzoom");
-const options = {
-  Toolbar: {
-    display: ["zoomIn",
-"zoomOut",
-"toggleZoom",
 
-"rotateCCW",
-"rotateCW",
-"flipX",
-"flipY",
-"fitX",
-"fitY",
-"reset"],
-  },
-};
+// const options = {
+//   Toolbar: {
+//     display: ["zoomIn",
+// "zoomOut",
+// "toggleZoom",
+// "rotateCCW",
+// "rotateCW",
+// "flipX",
+// "flipY",
+// "fitX",
+// "fitY",
+// "reset"],
+//   },
+// };
 
-new Panzoom(container, options, { Toolbar });
+// new Panzoom(container, options, { Toolbar });
+
+
+
+
 
 
 let words = [
@@ -71,3 +95,5 @@ let randomThing = Math.round(Math.random() * 100 )
 fetchImage(words[randomThing]);
 document.getElementById('search-text').innerText = `Searched word:  ${words[randomThing]}`
 })
+
+
